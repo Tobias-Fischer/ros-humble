@@ -1,0 +1,228 @@
+jobs:
+  stage_0_job_0:
+    name: nav2-common nav-2d-msgs
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-common ros-humble-nav-2d-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-common ros-humble-nav-2d-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_1_job_1:
+    name: nav2-msgs nav2-voxel-grid dwb-msgs
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-msgs ros-humble-nav2-voxel-grid ros-humble-dwb-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-msgs ros-humble-nav2-voxel-grid ros-humble-dwb-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_2_job_2:
+    name: nav2-util nav2-simple-commander
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-util ros-humble-nav2-simple-commander
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-util ros-humble-nav2-simple-commander
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_3_job_3:
+    name: nav2-map-server nav2-lifecycle-manager nav-2d-utils nav2-behavior-tree nav2-velocity-smoother
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-map-server ros-humble-nav2-lifecycle-manager ros-humble-nav-2d-utils
+        ros-humble-nav2-behavior-tree ros-humble-nav2-velocity-smoother
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-map-server ros-humble-nav2-lifecycle-manager
+          ros-humble-nav-2d-utils ros-humble-nav2-behavior-tree ros-humble-nav2-velocity-smoother
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_3_job_4:
+    name: nav2-amcl
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-amcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-amcl
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_4_job_5:
+    name: nav2-costmap-2d nav2-rviz-plugins nav2-core costmap-queue
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_3
+    - stage_3_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-costmap-2d ros-humble-nav2-rviz-plugins ros-humble-nav2-core
+        ros-humble-costmap-queue
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-costmap-2d ros-humble-nav2-rviz-plugins ros-humble-nav2-core
+          ros-humble-costmap-queue
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_5_job_6:
+    name: dwb-core nav2-regulated-pure-pursuit-controller nav2-controller nav2-waypoint-follower
+      nav2-theta-star-planner
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-dwb-core ros-humble-nav2-regulated-pure-pursuit-controller
+        ros-humble-nav2-controller ros-humble-nav2-waypoint-follower ros-humble-nav2-theta-star-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-dwb-core ros-humble-nav2-regulated-pure-pursuit-controller
+          ros-humble-nav2-controller ros-humble-nav2-waypoint-follower ros-humble-nav2-theta-star-planner
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_5_job_7:
+    name: nav2-smoother nav2-smac-planner nav2-planner nav2-navfn-planner nav2-constrained-smoother
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-smoother ros-humble-nav2-smac-planner ros-humble-nav2-planner
+        ros-humble-nav2-navfn-planner ros-humble-nav2-constrained-smoother
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-smoother ros-humble-nav2-smac-planner ros-humble-nav2-planner
+          ros-humble-nav2-navfn-planner ros-humble-nav2-constrained-smoother
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_5_job_8:
+    name: nav2-bt-navigator nav2-behaviors
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-nav2-bt-navigator ros-humble-nav2-behaviors
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-bt-navigator ros-humble-nav2-behaviors
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_6_job_9:
+    name: dwb-plugins dwb-critics nav2-rotation-shim-controller nav2-dwb-controller
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_6
+    - stage_5_job_7
+    - stage_5_job_8
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-dwb-plugins ros-humble-dwb-critics ros-humble-nav2-rotation-shim-controller
+        ros-humble-nav2-dwb-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-dwb-plugins ros-humble-dwb-critics ros-humble-nav2-rotation-shim-controller
+          ros-humble-nav2-dwb-controller
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+  stage_7_job_10:
+    name: navigation2
+    runs-on: macOS-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build ros-humble-navigation2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-navigation2
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+name: build_osx
+on:
+  push:
+    branches:
+    - buildbranch_osx_arm64
