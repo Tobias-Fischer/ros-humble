@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# This file is generated from ros-distro-template (template/check_patches_clean_apply.py).
+# If you change it here, upstream the change: comment `@robostack-bot upstream-to-template` on your PR.
+
 """
 check_patches_clean_apply.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -12,7 +15,7 @@ Usage
     # From repository root
     python check_patches_clean_apply.py          # prepare + run
     python check_patches_clean_apply.py --dry    # prepare only
-    python check_patches_clean_apply.py --dry --recipe ros-noetic-rviz
+    python check_patches_clean_apply.py --dry --recipe ros2-rviz2
     python check_patches_clean_apply.py --clean  # delete output
 
 The script creates (or refreshes) a sibling folder named
@@ -95,8 +98,8 @@ def parse_args() -> argparse.Namespace:
         metavar="RECIPE",
         help=(
             "Only check the specified recipe directory under recipes/. "
-            "Repeat for multiple recipes, e.g. --recipe ros-humble-rviz2 "
-            "--recipe ros-humble-tf2"
+            "Repeat for multiple recipes, e.g. --recipe ros2-rviz2 "
+            "--recipe ros2-tf2"
         ),
     )
     return ap.parse_args()

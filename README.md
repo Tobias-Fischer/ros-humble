@@ -1,6 +1,11 @@
+<!--
+This file is generated from ros-distro-template (template/README.md.jinja).
+If you change it here, upstream the change: comment `@robostack-bot upstream-to-template` on your PR.
+-->
+
 # RoboStack (for ROS humble)
 
-[![Conda](https://img.shields.io/conda/dn/robostack-humble/ros-humble-desktop?style=flat-square)](https://anaconda.org/robostack/)
+[![Conda](https://img.shields.io/conda/dn/robostack-staging/ros-humble-desktop?style=flat-square)](https://anaconda.org/robostack/)
 [![GitHub Repo stars](https://img.shields.io/github/stars/robostack/ros-humble?style=flat-square)](https://github.com/RoboStack/ros-humble/)
 [![QUT Centre for Robotics](https://img.shields.io/badge/collection-QUT%20Robotics-%23043d71?style=flat-square)](https://qcr.github.io/)
 
@@ -19,10 +24,13 @@
 [__Table with all available packages & architectures__](https://robostack.github.io/humble.html)
 
 ## Why ROS and Conda?
+
 Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, language-agnostic package manager. We provide ROS binaries for Linux, macOS, Windows and ARM (Linux). Installing other recent packages via conda-forge side-by-side works easily, e.g. you can install TensorFlow/PyTorch in the same environment as ROS humble without any issues. As no system libraries are used, you can also easily install ROS humble on any recent Linux Distribution - including older versions of Ubuntu. As the packages are pre-built, it saves you from compiling from source, which is especially helpful on macOS and Windows. No root access is required, all packages live in your home directory. We have recently written up a [paper](https://arxiv.org/abs/2104.12910) and [blog post](https://medium.com/robostack/cross-platform-conda-packages-for-ros-fa1974fd1de3) with more information.
 
 ## Attribution
+
 If you use RoboStack in your academic work, please refer to the following paper:
+
 ```bibtex
 @article{FischerRAM2021,
     title={A RoboStack Tutorial: Using the Robot Operating System Alongside the Conda and Jupyter Data Science Ecosystems},
@@ -34,4 +42,5 @@ If you use RoboStack in your academic work, please refer to the following paper:
 ```
 
 ## Installation, FAQ, and Contributing Instructions
+
 Please see our instructions [here](https://robostack.github.io/GettingStarted.html).
